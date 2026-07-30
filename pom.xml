@@ -5,11 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.example</groupId>
-<<<<<<< HEAD
     <artifactId>exceptions1</artifactId>
-=======
-    <artifactId>exception1-java</artifactId>
->>>>>>> 71b637dfbf5d4fc4a4037ef39f15ce1d26877ab7
     <version>1.0-SNAPSHOT</version>
 
     <properties>
