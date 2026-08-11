@@ -1,5 +1,7 @@
 package org.example;
 
+import org.example.model.entities.Reservation;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,9 +21,14 @@ public class Main {
         Date chekinDate = sdf.parse(checkin);
         System.out.print("Enter the date of Check-out (dd/MM/yyyy) : ");
         String checkout = sc.nextLine();
-        Date  chekoutDate = sdf.parse(checkout);
+        Date chekoutDate = sdf.parse(checkout);
+        if (!chekoutDate.after(chekinDate)) {
+            System.out.println("Error iin reservation: Check-out date must be after chekin-in date");
+        } else {
+            Reservation reservation1 = new Reservation(chekoutDate, chekinDate, roomNumber);
+            System.out.println(reservation1.toString());
+        }
 
-        System.out.println(checkin);
-        System.out.println(checkout);
+
     }
 }
