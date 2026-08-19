@@ -19,36 +19,37 @@ public class Main {
         sc.nextLine();
 
         System.out.print("Enter the date of Checkin (dd/MM/yyyy) : ");
-        String checkin = sc.nextLine();
-        Date chekinDate = sdf.parse(checkin);
+        Date checkin = sdf.parse(sc.next());
 
         System.out.print("Enter the date of Check-out (dd/MM/yyyy) : ");
-        String checkout = sc.nextLine();
-        Date chekoutDate = sdf.parse(checkout);
+        Date checkout = sdf.parse(sc.next());
 
-        if (!chekoutDate.after(chekinDate)) {
+        if (!checkout.after(checkin)) {
             System.out.println("Error in reservation: Check-out date must be after chekin-in date");
         } else {
             System.out.println();
-            Reservation reservation1 = new Reservation(chekoutDate, chekinDate, roomNumber);
+            Reservation reservation1 = new Reservation(checkout, checkin, roomNumber);
             System.out.println(reservation1.toString());
             System.out.println();
 
-            System.out.print("Enter data to update the reservation: ");
-
+            System.out.println("Enter data to update the reservation: ");
             System.out.print("Enter the date of Checkin (dd/MM/yyyy) : ");
-            checkin = sc.nextLine();
-            chekinDate = sdf.parse(checkin);
+            checkin = sdf.parse(sc.next());
 
             System.out.print("Enter the date of Check-out (dd/MM/yyyy) : ");
-            checkout = sc.nextLine();
-            chekoutDate = sdf.parse(checkout);
+            checkout = sdf.parse(sc.next());
 
-            reservation1.updateDates(chekinDate, chekoutDate);
-            System.out.println("Reservation: " + reservation1);
-            
+            Date now = new Date();
+
+            if (checkout.before(now) || checkin.before(now)) {
+                System.out.println("Erro in reservaton: Reservation dates for updates must be future dates");
+
+            } else if (!checkout.after(checkin)) {
+                System.out.println("Error in reservation: Check-out date must be after chekin-in date");
+            } else {
+                reservation1.updateDates(checkin, checkout);
+                System.out.println(reservation1);
+            }
         }
-
-
     }
 }
