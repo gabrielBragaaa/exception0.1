@@ -6,14 +6,14 @@ import java.util.concurrent.TimeUnit;
 
 public class Reservation {
     private Integer roomNumber;
-    private Date chekin;
+    private Date checkin;
     private Date checkout;
 
     private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
-    public Reservation(Date checkout, Date chekin, Integer roomNumber) {
+    public Reservation(Date checkout, Date checkin, Integer roomNumber) {
         this.checkout = checkout;
-        this.chekin = chekin;
+        this.checkin = checkin;
         this.roomNumber = roomNumber;
     }
 
@@ -21,8 +21,8 @@ public class Reservation {
         return checkout;
     }
 
-    public Date getChekin() {
-        return chekin;
+    public Date getCheckin() {
+        return checkin;
     }
 
     public Integer getRoomNumber() {
@@ -34,13 +34,24 @@ public class Reservation {
     }
 
     public long duration() {
-        long diff = checkout.getTime() - chekin.getTime();
+        long diff = checkout.getTime() - checkin.getTime();
         return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
     }
 
-    public void updateDates(Date chekin, Date checkout) {
-        this.chekin = chekin;
+    public String updateDates(Date checkin, Date checkout) {
+        Date now = new Date();
+
+        if (checkin.before(now) || checkout.before(now)) {
+            return "Erro in Reservation: Reservation dates for updates must be future dates";
+        }
+        if (!checkout.after(checkin)) {
+            return "Error in Reservation: Check-out date must be after checkin-in date";
+        }
+
+        this.checkin = checkin;
         this.checkout = checkout;
+
+        return null;
     }
 
     @Override
@@ -48,7 +59,7 @@ public class Reservation {
         return "Reservation: Room "
                 + roomNumber
                 + ", check-in: "
-                + sdf.format(chekin)
+                + sdf.format(checkin)
                 + ", check-out: "
                 + sdf.format(checkout)
                 + ", "
